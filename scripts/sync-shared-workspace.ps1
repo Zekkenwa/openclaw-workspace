@@ -55,7 +55,7 @@ switch ($Mode) {
         }
 
         Invoke-Git -GitArgs @('fetch', 'origin')
-        $aheadBehind = git rev-list --left-right --count HEAD...@{upstream}
+        $aheadBehind = git rev-list --left-right --count 'HEAD...@{upstream}'
         if ($LASTEXITCODE -ne 0) { throw 'Unable to compare the local branch with its upstream.' }
         $counts = $aheadBehind -split '\s+'
         $ahead = [int]$counts[0]
