@@ -1,0 +1,27 @@
+# OpenClaw local state, credentials, and session data
+.openclaw/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+sessions/
+transcripts/
+
+# Environment and secret files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local/generated workspace artifacts
+__pycache__/
+*.py[cod]
+*.log
+*.tmp
+
+# Keep source documents and generated output out of the shared agent workspace by default
+*.pdf
+pdf_preview_*.png
+*_extracted.txt
+*-redacted.json
+openclaw-workspace-state.json
