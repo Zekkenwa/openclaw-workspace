@@ -6,6 +6,16 @@ This folder is home. Treat it that way.
 
 If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out who you are, then delete it. You won't need it again.
 
+## Shared Workspace Sync (Multi-Device)
+
+This workspace is shared through the private `Zekkenwa/openclaw-workspace` Git repository. It synchronizes durable agent context and reusable workspace assets—not OpenClaw configuration, credentials, local session databases, or machine files.
+
+- At the beginning of every main/direct session, run `powershell -ExecutionPolicy Bypass -File .\scripts\sync-shared-workspace.ps1 -Mode start` before relying on workspace memory. It fast-forwards from `origin/main` only when the shared workspace is clean.
+- After a meaningful shared change—durable memory, a custom skill, instructions, shared script, or a user-approved reusable workflow—run `powershell -ExecutionPolicy Bypass -File .\scripts\sync-shared-workspace.ps1 -Mode push -Message "<concise description>"` before ending the turn.
+- Do **not** push ordinary chat transcripts, speculative notes, credentials, local configuration, session databases, generated artifacts, or unrelated project files.
+- Never force-push, auto-resolve conflicts, or overwrite another device's work. If the script reports divergent history, local changes before pull, or a conflict, stop and tell Raihan what needs resolution.
+- This protocol applies to main/direct sessions. Shared contexts must not pull or expose `MEMORY.md`.
+
 ## Session Startup
 
 Use runtime-provided startup context first.
