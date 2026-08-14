@@ -10,8 +10,8 @@ If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out w
 
 This workspace is shared through the private `Zekkenwa/openclaw-workspace` Git repository. It synchronizes durable agent context and reusable workspace assets—not OpenClaw configuration, credentials, local session databases, or machine files.
 
-- At the beginning of every main/direct session, run `powershell -ExecutionPolicy Bypass -File .\scripts\sync-shared-workspace.ps1 -Mode start` before relying on workspace memory. It fast-forwards from `origin/main` only when the shared workspace is clean.
-- After a meaningful shared change—durable memory, a custom skill, instructions, shared script, or a user-approved reusable workflow—run `powershell -ExecutionPolicy Bypass -File .\scripts\sync-shared-workspace.ps1 -Mode push -Message "<concise description>"` before ending the turn.
+- At the beginning of every main/direct session, run the platform helper before relying on workspace memory: Windows: `powershell -ExecutionPolicy Bypass -File .\scripts\sync-shared-workspace.ps1 -Mode start`; Linux/macOS: `bash ./scripts/sync-shared-workspace.sh --mode start`. It fast-forwards from `origin/main` only when the shared workspace is clean.
+- After a meaningful shared change—durable memory, a custom skill, instructions, shared script, or a user-approved reusable workflow—run the platform helper before ending the turn: Windows: `powershell -ExecutionPolicy Bypass -File .\scripts\sync-shared-workspace.ps1 -Mode push -Message "<concise description>"`; Linux/macOS: `bash ./scripts/sync-shared-workspace.sh --mode push --message "<concise description>"`.
 - Do **not** push ordinary chat transcripts, speculative notes, credentials, local configuration, session databases, generated artifacts, or unrelated project files.
 - Never force-push, auto-resolve conflicts, or overwrite another device's work. If the script reports divergent history, local changes before pull, or a conflict, stop and tell Raihan what needs resolution.
 - This protocol applies to main/direct sessions. Shared contexts must not pull or expose `MEMORY.md`.
