@@ -26,6 +26,8 @@ Things like:
 - Use one focused search first. Do not launch large parallel batches (especially 4+ calls); they can waste the 20 daily model requests and trigger the 5 RPM cap. Parallelize only truly independent, high-value queries and keep the batch to 2–3 calls.
 - Space sequential Gemini searches by at least **15 seconds**. If a rate-limit error occurs, pause for **60 seconds** before one retry; reduce fan-out and use official `web_fetch` pages/APIs for follow-up verification rather than more search calls.
 - Search is for discovery; use `web_fetch` on primary sources for precise facts. Its HTTP fetches do not require an additional Gemini-grounding query.
+- **Default decision workflow:** make exactly **one focused, serial Gemini search** to discover sources; then verify price, availability, specs, policy, or release claims through the manufacturer or an authorised/local retailer using `web_fetch`. Never promote a Gemini summary, SEO aggregator, marketplace listing, or rumour into an “official” fact. State the source type and uncertainty when verification is incomplete.
+- **Burst protection:** do not run Gemini searches concurrently unless the user explicitly needs independent research. Treat every search as chargeable against the project quota. Prefer one broad-enough query, then fetch sources; do not repeat a query merely because its summary is weak.
 
 ## Examples
 
