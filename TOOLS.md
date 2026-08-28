@@ -29,6 +29,19 @@ Things like:
 - **Default decision workflow:** make exactly **one focused, serial Gemini search** to discover sources; then verify price, availability, specs, policy, or release claims through the manufacturer or an authorised/local retailer using `web_fetch`. Never promote a Gemini summary, SEO aggregator, marketplace listing, or rumour into an “official” fact. State the source type and uncertainty when verification is incomplete.
 - **Burst protection:** do not run Gemini searches concurrently unless the user explicitly needs independent research. Treat every search as chargeable against the project quota. Prefer one broad-enough query, then fetch sources; do not repeat a query merely because its summary is weak.
 
+### Gutsai Model Catalog (custom-api-gutsai-id)
+- `GET /v1/models` on `https://api.gutsai.id/v1` **lies**: it advertises models that return HTTP 404 on `/v1/chat/completions`. Never trust the listing alone — probe each id with a tiny `max_tokens: 8` chat request before putting it in config.
+- Confirmed **dead (404, listed but unusable)** as of 2026-08-28: `nemotron-3-ultra`, `nemotron-3-super`, `nemotron-3.5-lightning`, `nemotron-3-nano-omni`, `claude-fable-5`, `composer-2.5`, `laguna-s-2.1`, `laguna-xs-2.1`. These are removed from config.
+- Transient **503** (real model, capacity-limited — keep, but don't make it a primary): `claude-sonnet-4.5`, `claude-haiku-4.5`, `deepseek-3.2`, `glm-5`, `minimax-m2.5`, `qwen-3-coder`.
+- Pinned defaults: main `claude-opus-5` (fallbacks `claude-opus-4.8`, `gpt-5.6-sol`, `gemini-3.1-pro`); subagents `gpt-5.6-sol` (fallbacks `gemini-3.7-flash`, `glm-5.3-flash`, `claude-opus-5`).
+- `models.json` schema requires `input` to be an **array** (`["text"]`), never a bare string. A string silently breaks the model registry load.
+- After any model/config edit: `openclaw config validate` then `openclaw doctor`, and smoke-test `sessions_spawn` since a bad subagent default fails the run instantly with a FailoverError.
+
+### Delegation Discipline
+- Do **not** spawn a subagent for a one-or-two-command local lookup (adapter specs, file read, git status). Just run it. Delegation costs ~13k tokens of bootstrap context and adds a failure surface.
+- Delegate only for genuinely fanned-out work: many files, many independent searches, long builds.
+- Read long console output **once** into a file and `read` it, instead of re-running the same probe with different formatting.
+
 ## Examples
 
 ```markdown
