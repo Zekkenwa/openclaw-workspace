@@ -25,3 +25,14 @@ pdf_preview_*.png
 *_extracted.txt
 *-redacted.json
 openclaw-workspace-state.json
+
+# Local task notes, backups, and generated engineering/PDF extraction artifacts
+memory/
+backups/
+*.xlsx
+*_extract.txt
+*_extract2.txt
+*_scan.py
+tmp_*.py
+build_*.py
+*_scan/
