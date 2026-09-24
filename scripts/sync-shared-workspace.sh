@@ -23,7 +23,7 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
 shared_paths=(
-  .gitignore AGENTS.md HEARTBEAT.md IDENTITY.md MEMORY.md SOUL.md TOOLS.md USER.md
+  .gitignore AGENTS.md HEARTBEAT.md IDENTITY.md MEMORY.md SOUL.md USER.md
   memory skills scripts
 )
 

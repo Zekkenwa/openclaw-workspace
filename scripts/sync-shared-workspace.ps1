@@ -17,7 +17,6 @@ $sharedPaths = @(
     'IDENTITY.md',
     'MEMORY.md',
     'SOUL.md',
-    'TOOLS.md',
     'USER.md',
     'memory',
     'skills',
