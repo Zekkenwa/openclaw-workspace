@@ -53,3 +53,13 @@
 - Pushes back on imprecise answers or unverified assumptions
 - Prefers metric units
 - Works at an engineering company — comfortable with and expects critical feedback
+
+## Lessons Learned — Tool System
+
+### Deferred Tools via `tool_call` (2026-10-22)
+**Mistake:** Passed `{"reason": "..."}` in the `args` object when calling deferred tools like `dashboard` through `tool_call`. The wrapper passes `args` directly to the target tool, which has its own strict schema (e.g., `dashboard` requires `action`, doesn't accept arbitrary fields).
+
+**Correct usage:**
+1. Use `tool_describe` first if the schema isn't clear
+2. Pass only the tool's documented parameters in `args` (e.g., `{"action": "read"}` for dashboard)
+3. Never inject `reason` or other meta-fields into deferred tool args — the wrapper doesn't filter them

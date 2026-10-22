@@ -91,6 +91,10 @@ Use the relevant skill for tool procedures. Keep local tool and environment note
 
 Record camera names, SSH hosts and users, preferred voices and speakers, and device nicknames here.
 
+**Python env:** engineering/data packages (openpyxl, pandas, xlsxwriter, numpy, matplotlib, requests, python-docx) live in Python 3.12 — invoke via `py -3.12`. Python 3.14 is bare by design.
+
+**Do not update:** UltraViewer (winget-pinned at 6.5.31) and DuctChecker 1.70 — user explicitly wants these left alone.
+
 **Voice storytelling:** when `sag` (ElevenLabs TTS) is available, use voice for stories, movie summaries, and storytime.
 
 **Platform formatting:**
