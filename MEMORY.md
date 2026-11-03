@@ -42,7 +42,7 @@
 - Hololive fan — especially Suisei (music), regularly watches Polka, Ollie, Okayu, Miko, Roboco, Zeta, Shiori, Bae
 
 ## Active Projects / Top of Mind
-- RTX 4060 eGPU build: ADT-Link R43SG OCuLink adapter → Lenovo IdeaPad Gaming 3, existing 750W PSU, planning 32GB RAM + 1–2TB SSD upgrade
+- ~~RTX 4060 eGPU build~~ DISCONTINUED (Oct 2026) — judged not worth the effort/price; now planning to buy a desktop PC instead. GPU research in progress: RX 6600 vs 6600 XT for 1440p (RX 6700 XT suggested as better 1440p value)
 - Troubleshot yt-dlp SSL/TLS issues on Windows/Git Bash; resolved YouTube download failures via VPN
 - Ran a pip package audit — 34 outdated packages identified
 - Selling: Leica DISTO D5, ADATA SU650 SSD (received as gift)
@@ -60,6 +60,7 @@
 **Mistake:** Passed `{"reason": "..."}` in the `args` object when calling deferred tools like `dashboard` through `tool_call`. The wrapper passes `args` directly to the target tool, which has its own strict schema (e.g., `dashboard` requires `action`, doesn't accept arbitrary fields).
 
 **Correct usage:**
-1. Use `tool_describe` first if the schema isn't clear
-2. Pass only the tool's documented parameters in `args` (e.g., `{"action": "read"}` for dashboard)
-3. Never inject `reason` or other meta-fields into deferred tool args — the wrapper doesn't filter them
+1. Use `tool_search` or `tool_describe` first if the schema isn't clear.
+2. Pass only the target tool's documented parameters in `args`: dashboard → `{"action":"read"}`; web search → `{"query":"...","count":5}`.
+3. Never substitute a narrative `reason` for a required field such as `query` or `action`.
+4. After one schema failure, compare the submitted payload with the validator's required schema and materially correct it. After a second validation failure, stop retries, inspect the full schema, and make one corrected call or report the blocker.

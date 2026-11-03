@@ -136,6 +136,12 @@ Reactions are lightweight social signals. Humans use them constantly — they sa
 
 ## Tools
 
+### Tool argument validation and retries
+
+- For deferred tools, use `tool_search` or `tool_describe` to confirm the target tool's required fields. `tool_call.args` is passed directly to that tool: include its required fields (for example `web_search` needs `args.query`), not a narrative `reason` in their place.
+- If a call fails schema/argument validation, read the error and compare the actual submitted arguments with the required schema **before** retrying. Change the payload to address the named missing/invalid field; do not repeat identical arguments or just announce a fix.
+- After a second validation failure, stop retrying the same call. Inspect the full schema with `tool_describe`, then try one materially corrected call or report the blocker. Do not let repeated identical failures terminate the turn.
+
 ### Local notes
 
 Skills define how tools work. Keep environment-specific local notes in this section.
