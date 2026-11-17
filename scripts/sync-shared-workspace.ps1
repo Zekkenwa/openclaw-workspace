@@ -79,6 +79,8 @@ switch ($Mode) {
         }
 
         $existingSharedPaths = @($sharedPaths | Where-Object { Test-Path $_ })
+        # Local policy may ignore shared memory; do not force-add it.
+        if (Test-Path 'memory') { $existingSharedPaths = @($existingSharedPaths | Where-Object { $_ -ne 'memory' }) }
         Invoke-Git -GitArgs (@('add', '--') + $existingSharedPaths)
         & git diff --cached --quiet
         if ($LASTEXITCODE -eq 0) {
