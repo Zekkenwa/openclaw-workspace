@@ -136,12 +136,6 @@ Reactions are lightweight social signals. Humans use them constantly — they sa
 
 ## Tools
 
-### Tool argument validation and retries
-
-- For deferred tools, use `tool_search` or `tool_describe` to confirm the target tool's required fields. `tool_call.args` is passed directly to that tool: include its required fields (for example `web_search` needs `args.query`), not a narrative `reason` in their place.
-- If a call fails schema/argument validation, read the error and compare the actual submitted arguments with the required schema **before** retrying. Change the payload to address the named missing/invalid field; do not repeat identical arguments or just announce a fix.
-- After a second validation failure, stop retrying the same call. Inspect the full schema with `tool_describe`, then try one materially corrected call or report the blocker. Do not let repeated identical failures terminate the turn.
-
 ### Local notes
 
 Skills define how tools work. Keep environment-specific local notes in this section.
@@ -189,9 +183,10 @@ Things like:
 
 ### Gutsai Model Catalog (custom-api-gutsai-id)
 - `GET /v1/models` on `https://api.gutsai.id/v1` **lies**: it advertises models that return HTTP 404 on `/v1/chat/completions`. Never trust the listing alone — probe each id with a tiny `max_tokens: 8` chat request before putting it in config. Burst probes hit **40 RPM**; retry 429s sequentially after a pause.
-- Last live probe: **2026-11-17 15:05–15:08 WIB**. 40 advertised IDs + one stale configured ID: **30 chat-OK**, **7 explicit offline**, **2 repeated not-found**, **1 image-only**. All 30 chat-OK models are retained in provider config; UI selection has 11 verified entries.
-- Explicit `model_offline` twice, removed 2026-11-17: `claude-fable-5.1`, `claude-haiku-5.5`, `claude-opus-4.8`, `claude-opus-5`, `claude-opus-5.5`, `claude-sonnet-5`, `claude-sonnet-5.5`, `gemini-3.8-flash`. Repeated `model_not_found`: `qwen-3.8-27b-uncensored`, `step-5-preview`. `gpt-image-2.5` is image-only, not chat-compatible.
-- Current primary remains `guts/kimi-k3`; no fallbacks are configured. Existing model aliases and provider base URL/API mode/credential reference are unchanged. Credential was resolved only in the probe process, never stored in artifacts. Audit: `~/.openclaw/model-audits/20261117-150323/`; rollback: Desktop `Rollback Guts model audit.lnk` (dry-run passed, full restore not exercised).
+- Last live probe: **2026-11-17**. Advertised 39 IDs; **30 chat-OK**, **8 offline/maintenance**, **1 image-only**. Reusable probe: `scripts/probe-gutsai-models.py` (reads `GUTSAI_API_KEY`, writes credential-free reports under `~/.openclaw/model-audits/`).
+- Offline/maintenance on 2026-11-17 (defer; do not select until re-proven): `claude-fable-5.1`, `claude-haiku-5.5`, `claude-opus-4.8`, `claude-opus-5`, `claude-opus-5.5`, `claude-sonnet-5`, `claude-sonnet-5.5`, `gemini-3.8-flash`.
+- Deterministically unusable for chat on 2026-11-17: `gpt-image-2.5` (image-only). Configured IDs no longer advertised and returning explicit `model_not_found`: `laguna-s2.1`, `laguna-xs2.1`, `step-5-preview`, `qwen-3.8-27b-uncensored`.
+- Current pinned default remains `gpt-5.6-sol`; do not change defaults, fallbacks, aliases, credentials, or routing during catalog cleanup unless explicitly requested.
 - `models.json` schema requires `input` to be an **array** (`["text"]`), never a bare string. A string silently breaks the model registry load.
 - After any model/config edit: `openclaw config validate` then `openclaw doctor --lint`. Smoke-test a live fallback before changing the subagent primary; a dead subagent default fails instantly with a FailoverError.
 
