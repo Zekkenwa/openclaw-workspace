@@ -18,6 +18,14 @@ __pycache__/
 *.py[cod]
 *.log
 *.tmp
+DREAMS.md
+chrome-default-breakdown.json
+chrome-profile-breakdown.json
+cleanup-final-breakdown.json
+cleanup-preflight.json
+disk-deep-breakdown.json
+disk-folder-breakdown.json
+disk-usage-audit.json
 
 # Keep source documents and generated output out of the shared agent workspace by default
 *.pdf

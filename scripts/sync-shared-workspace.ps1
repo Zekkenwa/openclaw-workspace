@@ -20,7 +20,8 @@ $sharedPaths = @(
     'USER.md',
     'memory',
     'skills',
-    'scripts'
+    'scripts',
+    'tools'
 )
 
 function Invoke-Git {
