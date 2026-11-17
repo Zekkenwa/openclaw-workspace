@@ -23,8 +23,8 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
 shared_paths=(
-  .gitignore AGENTS.md HEARTBEAT.md IDENTITY.md MEMORY.md SOUL.md USER.md
-  memory skills scripts
+  .gitignore AGENTS.md CAPABILITIES.md HEARTBEAT.md IDENTITY.md MEMORY.md SOUL.md USER.md
+  memory skills scripts tools capabilities
 )
 
 shared_changes() {
@@ -58,6 +58,10 @@ case "$mode" in
       echo "Pulled $behind commit(s) from origin/main."
     else
       echo 'Already up to date with origin/main.'
+    fi
+
+    if [[ -f scripts/bootstrap-shared-capabilities.sh ]]; then
+      bash scripts/bootstrap-shared-capabilities.sh
     fi
     ;;
 

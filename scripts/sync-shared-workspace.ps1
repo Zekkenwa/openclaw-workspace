@@ -13,6 +13,7 @@ Set-Location $repoRoot
 $sharedPaths = @(
     '.gitignore',
     'AGENTS.md',
+    'CAPABILITIES.md',
     'HEARTBEAT.md',
     'IDENTITY.md',
     'MEMORY.md',
@@ -21,7 +22,8 @@ $sharedPaths = @(
     'memory',
     'skills',
     'scripts',
-    'tools'
+    'tools',
+    'capabilities'
 )
 
 function Invoke-Git {
@@ -69,6 +71,12 @@ switch ($Mode) {
             Write-Output "Pulled $behind commit(s) from origin/main."
         } else {
             Write-Output 'Already up to date with origin/main.'
+        }
+
+        $bootstrap = Join-Path $PSScriptRoot 'bootstrap-shared-capabilities.ps1'
+        if (Test-Path $bootstrap) {
+            & powershell -ExecutionPolicy Bypass -File $bootstrap
+            if ($LASTEXITCODE -ne 0) { throw "Shared capability bootstrap failed with exit code $LASTEXITCODE." }
         }
     }
 
