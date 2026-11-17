@@ -21,10 +21,10 @@ Minimum tested OpenClaw version: **2026.11.5**.
 
 The bootstrap checks only whether these variables are present; it never prints values:
 
-- GutsAI: `GUTSAI_API_KEY` preferred; `OPENAI_API_KEY` accepted for the current compatibility setup.
+- GutsAI: `GUTSAI_API_KEY`.
 - Gemini memory embeddings: `GEMINI_API_KEY` preferred; `GOOGLE_API_KEY` accepted fallback.
 
-Provider credentials must live in the Gateway process environment or `~/.openclaw/.env` (`$OPENCLAW_STATE_DIR/.env`). OpenClaw intentionally blocks provider keys from workspace `.env` files. The scripts write environment-backed SecretRefs into config, not plaintext values.
+Provider credentials must be available to the shell/Gateway process environment and must never be placed in the workspace repository. The scripts write environment-backed SecretRefs into config, not plaintext values.
 
 ## New-device/session flow
 

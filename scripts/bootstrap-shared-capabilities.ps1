@@ -25,7 +25,7 @@ function Test-EnvPresent([string[]]$Names) {
     return $null
 }
 
-$gutsaiEnv = Test-EnvPresent @('GUTSAI_API_KEY', 'OPENAI_API_KEY')
+$gutsaiEnv = Test-EnvPresent @('GUTSAI_API_KEY')
 $geminiEnv = Test-EnvPresent @('GEMINI_API_KEY', 'GOOGLE_API_KEY')
 Write-Output ('GutsAI credential environment: ' + $(if ($gutsaiEnv) { "$gutsaiEnv present" } else { 'missing' }))
 Write-Output ('Gemini credential environment: ' + $(if ($geminiEnv) { "$geminiEnv present" } else { 'missing' }))
@@ -37,10 +37,10 @@ if ($VerifyOnly) {
 }
 
 if (-not $gutsaiEnv) {
-    throw 'Missing GUTSAI_API_KEY (preferred) or OPENAI_API_KEY. Add it to the Gateway process environment or ~/.openclaw/.env; never to the workspace repository.'
+    throw 'Missing GUTSAI_API_KEY. Add it to the shell/Gateway process environment; never to the workspace repository.'
 }
 if (-not $geminiEnv) {
-    throw 'Missing GEMINI_API_KEY or GOOGLE_API_KEY. Add it to the Gateway process environment or ~/.openclaw/.env; never to the workspace repository.'
+    throw 'Missing GEMINI_API_KEY or GOOGLE_API_KEY. Add it to the shell/Gateway process environment; never to the workspace repository.'
 }
 
 $providerPath = Join-Path $repoRoot 'capabilities\gutsai-provider.json'

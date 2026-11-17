@@ -12,7 +12,7 @@ version="$(openclaw --version | grep -Eo '[0-9]{4}\.[0-9]+\.[0-9]+' | head -1)"
 printf '%s\n%s\n' '2026.11.5' "$version" | sort -V -C || { echo "OpenClaw 2026.11.5 or newer is required; found $version." >&2; exit 1; }
 
 gutsai_env=''
-for name in GUTSAI_API_KEY OPENAI_API_KEY; do [[ -n "${!name:-}" ]] && { gutsai_env="$name"; break; }; done
+for name in GUTSAI_API_KEY; do [[ -n "${!name:-}" ]] && { gutsai_env="$name"; break; }; done
 gemini_env=''
 for name in GEMINI_API_KEY GOOGLE_API_KEY; do [[ -n "${!name:-}" ]] && { gemini_env="$name"; break; }; done
 [[ -n "$gutsai_env" ]] && echo "GutsAI credential environment: $gutsai_env present" || echo 'GutsAI credential environment: missing'
@@ -24,8 +24,8 @@ if $verify_only; then
   exit
 fi
 
-[[ -n "$gutsai_env" ]] || { echo 'Missing GUTSAI_API_KEY (preferred) or OPENAI_API_KEY. Put it in the Gateway environment or ~/.openclaw/.env, never this repository.' >&2; exit 1; }
-[[ -n "$gemini_env" ]] || { echo 'Missing GEMINI_API_KEY or GOOGLE_API_KEY. Put it in the Gateway environment or ~/.openclaw/.env, never this repository.' >&2; exit 1; }
+[[ -n "$gutsai_env" ]] || { echo 'Missing GUTSAI_API_KEY. Put it in the shell/Gateway environment, never this repository.' >&2; exit 1; }
+[[ -n "$gemini_env" ]] || { echo 'Missing GEMINI_API_KEY or GOOGLE_API_KEY. Put it in the shell/Gateway environment, never this repository.' >&2; exit 1; }
 
 batch_file="$(mktemp)"
 trap 'rm -f "$batch_file"' EXIT
